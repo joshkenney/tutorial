@@ -3,15 +3,10 @@
 Unit tests for Raspberry Pi 5 Temperature Reader
 
 These tests validate the core functionality of the temperature reader.
-Run with: python3 test_raspberry_pi_temp_reader.py
+Run with: python3 -m unittest test_raspberry_pi_temp_reader
 """
 
 import unittest
-import sys
-import os
-
-# Add the current directory to the path to import the module
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from raspberry_pi_temp_reader import RaspberryPiTempReader
 
@@ -116,33 +111,5 @@ class TestTemperatureReadingMethods(unittest.TestCase):
         self.assertTrue(result is None or isinstance(result, float))
 
 
-def run_tests():
-    """Run all tests and display results"""
-    # Create a test suite
-    loader = unittest.TestLoader()
-    suite = unittest.TestSuite()
-    
-    # Add all test cases
-    suite.addTests(loader.loadTestsFromTestCase(TestRaspberryPiTempReader))
-    suite.addTests(loader.loadTestsFromTestCase(TestTemperatureReadingMethods))
-    
-    # Run the tests with verbose output
-    runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(suite)
-    
-    # Print summary
-    print("\n" + "="*70)
-    print("TEST SUMMARY")
-    print("="*70)
-    print(f"Tests run: {result.testsRun}")
-    print(f"Successes: {result.testsRun - len(result.failures) - len(result.errors)}")
-    print(f"Failures: {len(result.failures)}")
-    print(f"Errors: {len(result.errors)}")
-    print("="*70)
-    
-    # Return exit code
-    return 0 if result.wasSuccessful() else 1
-
-
 if __name__ == '__main__':
-    exit(run_tests())
+    unittest.main()

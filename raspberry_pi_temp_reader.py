@@ -15,8 +15,10 @@ Usage:
 
 import os
 import subprocess
+import sys
 import time
 import argparse
+import shutil
 from typing import Optional, Tuple
 
 
@@ -37,13 +39,8 @@ class RaspberryPiTempReader:
             str: 'vcgencmd' or 'thermal_zone'
         """
         # Check if vcgencmd is available
-        try:
-            subprocess.run(['which', 'vcgencmd'], 
-                          capture_output=True, 
-                          check=True)
+        if shutil.which('vcgencmd') is not None:
             return 'vcgencmd'
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            pass
         
         # Check if thermal zone file exists
         if os.path.exists(self.THERMAL_ZONE_PATH):
@@ -225,4 +222,4 @@ Examples:
 
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())
